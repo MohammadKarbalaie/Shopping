@@ -12,9 +12,22 @@ import { NotFound } from './pages/Notfound';
 
 const queryClient = new QueryClient();
 
-const App: React.FC = () => {
+const CartIcon: React.FC = () => {
   const cartItemsCount = useSelector((state: RootState) => state.cart.items.length);
+  
+  return (
+    <Link to="/cart" className="relative text-3xl font-bold">
+      <AiOutlineShoppingCart />
+      {cartItemsCount > 0 && (
+        <span className="absolute -top-2 -right-3 bg-yellow-600 text-white rounded-full px-2 py-1 text-xs">
+          {cartItemsCount}
+        </span>
+      )}
+    </Link>
+  );
+};
 
+const App: React.FC = () => {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
@@ -23,15 +36,7 @@ const App: React.FC = () => {
             <nav className="w-full bg-gray-800 p-4 text-white">
               <div className="container mx-auto flex justify-between">
                 <Link to="/" className="text-xl font-bold">Product List</Link>
-                
-                <Link to="/cart" className="relative text-xl font-bold">
-                  <AiOutlineShoppingCart />
-                  {cartItemsCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs">
-                      {cartItemsCount}
-                    </span>
-                  )}
-                </Link>
+                <CartIcon />
               </div>
             </nav>
 
@@ -40,6 +45,7 @@ const App: React.FC = () => {
               <main className="w-3/4 mt-2 ml-20">
                 <Routes>
                   <Route path="/" element={<ProductList />} />
+                  <Route path="/products/:page" element={<ProductList />} />
                   <Route path="/cart" element={<CartPage />} />
                   <Route path="/checkout" element={<CheckoutPage />} />
                   <Route path="*" element={<NotFound />} />
@@ -51,6 +57,6 @@ const App: React.FC = () => {
       </QueryClientProvider>
     </Provider>
   );
-}
+};
 
 export default App;

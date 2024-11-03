@@ -47,7 +47,7 @@ const FiltersAside: React.FC = () => {
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
-            checked={fastDelivery}
+            checked={outofstock}
             onChange={() => dispatch(setOuTofStock(!outofstock))}
           />
           Include Out of Stock
